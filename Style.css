@@ -1,0 +1,322 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 25.6px;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+section {
+    padding: 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 32px;
+    color: #2c3e50;
+}
+
+/* Exercise 1: Profile Card Grid */
+.team .profile-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
+
+.team .card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    text-align: center;
+    position: relative;
+}
+
+.team .card:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.team .card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    border: 5px solid #f8f9fa;
+}
+
+.team .card h3 {
+    margin: 8px 0;
+    color: #2c3e50;
+}
+
+.team .card p {
+    color: #7f8c8d;
+    margin-bottom: 24px;
+}
+
+.team .social {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.team .social a {
+    color: #3498db;
+    font-size: 19.2px;
+}
+
+.team .social a:hover {
+    color: #2980b9;
+}
+
+/* Attribute selector for email links */
+.team a[href^="mailto"] {
+    color: #e74c3c;
+}
+
+.team a[href^="mailto"]:hover {
+    color: #c0392b;
+}
+
+/* Pseudo-element for badge */
+.team .card::before {
+    content: "New";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    padding: 4.8px 9.6px;
+    border-radius: 20px;
+    font-size: 12.8px;
+    font-weight: bold;
+}
+
+/* Exercise 2: Pricing Table */
+.pricing .plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
+
+.pricing .plan {
+    background: white;
+    border-radius: 10px;
+    padding: 32px;
+    box-shadow: 0 5px 15px rgb(0, 0, 0);
+    position: relative;
+}
+
+/* Different box-sizing for first column */
+.pricing .plan.basic {
+    box-sizing: content-box;
+}
+
+.pricing .plan.popular,
+.pricing .plan.enterprise {
+    box-sizing: border-box;
+}
+
+.pricing .plan.popular {
+    border: 2px solid #3498db;
+}
+
+.pricing .popular-badge {
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background: #3498db;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14.4px;
+    font-weight: bold;
+}
+
+.pricing .price {
+    font-size: 40px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 16px 0;
+}
+
+.pricing .price span {
+    font-size: 16px;
+    color: #7f8c8d;
+    font-weight: normal;
+}
+
+.pricing ul {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0;
+}
+
+.pricing ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.pricing button {
+    width: 100%;
+    padding: 16px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.pricing button:hover {
+    background: #2980b9;
+}
+
+/* Tooltip hover effect */
+.pricing .plan {
+    position: relative;
+}
+
+.pricing .plan:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    background: #333;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14.4px;
+    margin-bottom: 10px;
+    opacity: 0;
+}
+
+.pricing .plan.basic:hover::after {
+    content: "Great for individuals";
+    opacity: 1;
+}
+
+.pricing .plan.popular:hover::after {
+    content: "Perfect for small teams";
+    opacity: 1;
+}
+
+.pricing .plan.enterprise:hover::after {
+    content: "Ideal for large organizations";
+    opacity: 1;
+}
+
+/* Exercise 3: Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: auto;
+}
+
+.hero nav {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 16px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 32px;
+}
+
+.hero nav li {
+    display: inline-block;
+}
+
+.hero nav a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.hero nav a:hover {
+    color: #3498db;
+}
+
+.hero .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    max-width: 600px;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #2c3e50;
+}
+
+.hero p {
+    font-size: 19.2px;
+    margin-bottom: 32px;
+    color: #7f8c8d;
+}
+
+.hero button {
+    padding: 16px 32px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    align-self: flex-start;
+    transition: background 0.3s ease;
+}
+
+.hero button:hover {
+    background: #2980b9;
+}
+
+.hero .hero-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 50%;
+    z-index: -1;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .hero .content {
+        max-width: 100%;
+        padding-top: 64px;
+    }
+    
+    .hero .hero-bg {
+        position: relative;
+        width: 100%;
+        height: 300px;
+    }
+    
+    .hero nav ul {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
