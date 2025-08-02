@@ -1,0 +1,176 @@
+//Part 1:Understanding type of coercion answers
+/* 
+1.57
+2.false
+3.8
+4.true
+5.false
+6.false
+7.5true
+8.10
+9.true 
+10.false 
+*/
+//Part 2:Conditional check
+//1.Check if a number is positive, negative, or zero.
+let n=10;
+if (n>0) {
+  console.log("number is positive")
+}
+else if (n<0) {
+ console.log("the number is negative") 
+}
+else {
+  console.log("the number is zero")
+}
+//2.Check if a person is eligible to vote (age 18 or older).
+let age=25;
+if (age>18) {
+  console.log("eligible to vote")
+} 
+else {
+  console.log("minor")
+}
+//Part 3:Loop exercise 
+//task1:factorial of a number
+let a=5;
+let factor=1;
+for (var i = 1; i <= a; i++) {
+  factor*=i;
+}
+console.log(`factorial of ${n} is ${factor}`);
+// task 2:Fibonacci sequence 
+let count=10;
+let sequence=[0,1];
+for (var i = 2; i <count; i++) {
+   sequence.push(sequence[i-1]+sequence[i-2]);
+}
+console.log(`Fibonacci sequence for the first ${count} is ${sequence.join(',')}`);
+//task 3:prime numbers
+let b=7;
+let prime=true;
+if (b<=1) {
+  prime=false;
+}
+else {
+  for (var i = 2; i <= Math.sqrt(b); i++) {
+    if (b%i===0) {
+      prime=false;
+      break;
+    }
+  }
+}
+console.log(`${b} is ${prime?'':'not'} prime number `);
+//part 4:function tasks
+//task 1 average of two numbers 
+function average(num1,num2) {
+  //exception handling 
+  if (typeof num1!=='number'||typeof num2!=='number'|| isNaN(num1)|| isNaN(num2) ) {
+    throw new Error("Please number only");
+  }
+  return (num1+num2)/2;
+};
+try {
+console.log(average('a', 20));
+}
+catch (error) {
+console.error('error:',error.message)
+}
+//task 2 factorial using arrow function 
+const factorial = (r)=>{
+  if (!Number.isInteger(r)|| r<0) {
+    throw new Error("only non negative integer");
+  }
+  
+  let fact=1;
+    for (var i = 1; i <=r; i++) {
+    fact*=i;
+    }
+  return fact;
+};
+try {
+  console.log(factorial(-1));
+}
+catch (error) {
+  console.error('error:',error.message);
+}
+//Task 3:checking prime number 
+const isprime=function(num) {
+if (!Number.isInteger(num) || num < 0) {
+  throw new Error("only positive integer");
+}
+if (num <= 1) {
+  return false;
+}
+else {
+  for (var i = 2; i <= Math.sqrt(num); i++) {
+    if (num % i === 0) {
+    return false;
+      break;
+    }
+  }
+}
+return true;
+}
+try {
+  console.log(isprime(-2));
+}
+catch (error) {
+  console.error("error:",error.message)
+}
+//Part 5 :Array 
+let array=[3,24,16,9,5,97,11,10]
+
+//1.for each
+console.log("write each number")
+
+array.forEach(num=>console.log(num));
+//2.map
+console.log("each number squared")
+
+let squared=array.map(num=>num*num);
+console.log(squared);
+//3.filter
+console.log("only odd numbers")
+
+let odd=array.filter(num=>num%2!==0);
+console.log(odd);
+//4.reduce
+console.log("the sum of numbers")
+
+let sum=array.reduce((acc,num)=>acc+num,0);
+console.log(sum);
+//5.find
+console.log("the first number greater than 10")
+
+let greater10=array.find(num=>num>10);
+console.log(greater10);
+//6.findindex
+console.log("the index of first even number")
+
+let firsteven=array.findIndex(num=>num%2===0)
+console.log(firsteven);
+//7.includes
+console.log("Check if number 10 is present")
+
+let ten=array.includes(10);
+console.log(ten);
+//8.slice
+console.log("the first two elements")
+
+let firsttwo=array.slice(0,2);
+console.log(firsttwo);
+//9.splice 
+console.log("Remove last number and add 38 ")
+let removed=array.splice(array.length-1,1,38);
+console.log(removed);
+console.log(array);
+//10. sort
+console.log("Sort numbers in ascending order")
+let sorted =array.sort((a, b) => a - b);
+console.log(sorted);
+
+// 11. join
+console.log("string of numbers separated by commas")
+let joined = array.join(', ');
+console.log(joined);
