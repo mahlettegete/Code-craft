@@ -1,90 +1,132 @@
-const balance = document.getElementById('balance');
-const incomes = document.getElementById('money-plus');
-const expens = document.getElementById('money-minus');
-const list = document.getElementById('list');
-const form = document.getElementById('form');
-const text = document.getElementById('text');
-const amount = document.getElementById('amount');
+const cardsContainer = document.getElementById('cards-container');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const currentEl = document.getElementById('current');
+const showBtn = document.getElementById('show');
+const hideBtn = document.getElementById('hide');
+const questionEl = document.getElementById('question');
+const answerEl = document.getElementById('answer');
+const addCardBtn = document.getElementById('add-card');
+const clearBtn = document.getElementById('clear');
+const addContainer = document.getElementById('add-container');
 
+//keep track of the current card
+let currentActiveCard = 0;
 
-const dummyData = [
-  {id:1 , text:'tea', amount :30},
-  {id:2 , text:'water', amount :90},
-  {id:3 , text:'burger', amount :100},
-  {id:4 , text:'coffe', amount :120}
- ]
+//store Dom card
+const cardsEl=[];
 
-const localStorageTransactions = JSON.parse(
-  localStorage.getItem('transactions')
-);
+const cardsData=getCardsData();
 
-let transactions =localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
-
-function generateId(){
- return Math.floor(Math.random()*10000000) 
+/*const cardsData=[
+  {
+   question:'what is your name?' ,
+   answer:'Mahlet'
+  },
+  {
+   question:'What is your school namw?',
+   answer:'SASE'
+  }
+] */
+//create all cards
+function createCards() {
+  cardsData.forEach((data,index)=>  createCard(data,index) );
 }
 
-
-function addTransaction(e){
- e.preventDefault();
- if (text.value.trim()===''|| amount.value.trim()==='') {
-   alert('please add a text and an amount');
- }
- else{
-   const transaction = {
-     id: generateId(),
-     text: text.value,
-     amount:+amount.value
-   }
-   transactions.push(transaction);
-   addTransactionDOM(transaction);
-   updatevalues();
-   updateLocalStorage();
-   text.value='';
-   amount.value='';
- }
-};
-
-
-function addTransactionDOM(transaction){
-const sign = transaction.amount<0?'-':'+';
-const item=document.createElement('li');
-item.classList.add(transaction.amount<0?'minus':'plus');
-item.innerHTML=`${transaction.text}<span>${sign} ${Math.abs(transaction.amount)}</span> <button class="delete-btn" onClick="removeTransaction(${transaction.id})"> x </button>`
-list.appendChild(item);
-
-}
-
-function updatevalues(){
-  const amounts = transactions.map(
-    transction =>transction.amount
-  );
-  const total = amounts.reduce((acc,item)=>(acc+=item),0).toFixed(2)
-  const income = amounts.filter(item =>item>0)
-  .reduce((acc,item)=>(acc+=item),0).toFixed(2);
-  const exp = amounts.filter(item=>item<0).filter(item =>item>0)
-  .reduce((acc,item)=>(acc+=item),0)*-1
-  .toFixed(2);
+//create a single card
+function createCard(data,index) {
+  const card=document.createElement('div')
+  card.classList.add('card')
   
-  balance.innerText=`$${total}`;
-  income.innerText=`$${income}`;
-  expens.innerText=`$${exp}`;
+  if(index==0){
+    card.classList.add('active');
+  }
+  
+  card.innerHTML=`
+        <div class="inner-card">
+          <div class="inner-card-front">
+            <p>
+              ${data.question}
+            </p>
+          </div>
+          <div class="inner-card-back">
+            <p>
+              ${data.answer}
+            </p>
+          </div>`;
+
+
+card.addEventListener('click',()=>
+  card.classList.toggle('show-answer'));
+  
+//add to DOM
+cardsEl.push(card);
+cardsContainer.appendChild(card);
+updateCurrentText();
 }
 
-function updateLocalStorage(){
-  localStorage.setItem('transactions',JSON.stringify(transactions));
+createCards();
+
+function updateCurrentText() {
+  currentEl.innerText=`${currentActiveCard+1}/${cardsEl.length}`
 }
 
-function removeTransaction(id){
-  transactions=transactions.filter(money=>money.id!==id);
-  updateLocalStorage();
-  init();
+nextBtn.addEventListener('click',()=>{
+  cardsEl[currentActiveCard].className='card left';
+  currentActiveCard+=1;
+  if (currentActiveCard>cardsEl.length -1) {
+    currentActiveCard=cardsEl.length -1;
+  }
+  cardsEl[currentActiveCard].className='card active';
+  updateCurrentText();
+  
+});
+prevBtn.addEventListener('click',()=>{
+  cardsEl[currentActiveCard].className='card right';
+  currentActiveCard-=1;
+  
+  if(currentActiveCard<0){
+    currentActiveCard=0;
+  }
+  cardsEl[currentActiveCard].className='card active'
+});
+
+
+function getCardsData() {
+  const cards = JSON.parse(localStorage.getItem('cards'))
+  return cards===null? []:cards;
 }
 
-function init(){
-list.innerHTML='';
-transactions.forEach(addTransactionDOM);
-updatevalues();
+function setCardsData(cards) {
+  localStorage.setItem('cards',JSON.stringify(cards));
+  window.location.reload();
 }
-init();
-form.addEventListener('submit',addTransaction)
+
+addCardBtn.addEventListener('click',()=>{
+  const question=questionEl.value;
+  const answer =answerEl.value;
+  
+  if(question.trim()&& answer.trim()){
+    const newCard={question,answer};
+    
+    createCard(newCard);
+    
+    addContainer.classList.remove('show');
+    cardsData.push(newCard);
+    setCardsData(cardsData);
+  }
+});
+
+showBtn.addEventListener('click',()=>{
+  addContainer.classList.add('show')
+});
+
+hideBtn.addEventListener('click',()=>{
+  addContainer.classList.remove('show')
+});
+//clear button
+clearBtn.addEventListener('click',()=>{
+  localStorage.clear();
+  cardsContainer.innerHTML='';
+  updateCurrentText();
+})
